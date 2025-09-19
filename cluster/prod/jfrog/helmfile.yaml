@@ -1,0 +1,10 @@
+repositories:
+  - name: jfrog
+    url: https://charts.jfrog.io
+releases:
+  - name: jfrog-container-registry
+    namespace: artifacts
+    chart: jfrog/artifactory-jcr
+    version: 107.49.10
+    values:
+      - values.yaml

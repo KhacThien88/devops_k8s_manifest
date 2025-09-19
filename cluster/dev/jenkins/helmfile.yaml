@@ -1,0 +1,10 @@
+repositories:
+  - name: jenkinsci
+    url: https://charts.jenkins.io
+releases:
+  - name: jenkins
+    namespace: integration
+    chart: jenkinsci/jenkins
+    version: 5.7.12
+    values:
+      - jenkins.yaml

@@ -1,0 +1,7 @@
+releases:
+  - name: keyloak
+    namespace: sso
+    chart: oci://registry-1.docker.io/bitnamicharts/keycloak
+    version: 22.1.0
+    values:
+      - values.yaml

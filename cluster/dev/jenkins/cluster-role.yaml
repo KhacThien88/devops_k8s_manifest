@@ -1,0 +1,54 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: jenkins-cluster-role
+rules:
+- verbs:
+    - delete
+    - get
+    - patch
+  apiGroups:
+    - '*'
+  resources:
+    - '*'
+- verbs:
+    - list
+  apiGroups:
+    - ''
+  resources:
+    - events
+- verbs:
+    - get
+  apiGroups:
+    - ''
+  resources:
+    - pods
+    - pods/log
+- verbs:
+    - create
+  apiGroups:
+    - ''
+  resources:
+    - pods/exec
+- verbs:
+    - get
+    - list
+    - update
+    - watch
+  apiGroups:
+    - argoproj.io
+  resources:
+    - applications
+    - applicationsets
+- verbs:
+    - create
+  apiGroups:
+    - batch
+  resources:
+    - jobs
+- verbs:
+    - create
+  apiGroups:
+    - argoproj.io
+  resources:
+    - workflows

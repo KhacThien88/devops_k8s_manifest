@@ -1,0 +1,219 @@
+projects:
+  cloud-development:
+    namespace: argocd
+    additionalLabels: {}
+    additionalAnnotations: {}
+    permitOnlyProjectScopedClusters: false
+    finalizers:
+      - resources-finalizer.argocd.argoproj.io
+    description: Project for dev environment
+    sourceRepos:
+      # - "https://github.com/gearment/gea-app.git"
+      - "*"
+    destinations:
+      - namespace: development
+        name: k8s-longvan-development
+    clusterResourceWhitelist: []
+    clusterResourceBlacklist: []
+    namespaceResourceWhitelist:
+      - group: "*"
+        kind: "*"
+    # orphanedResources: {}
+    roles:
+    - name: admin
+      description: Admin privileges to team dev
+      policies:
+        - p, proj:cloud-development:admin, applications, *, *, allow
+      groups:
+        - /devops # Value from the groups scope
+        - /dev
+    syncWindows: []
+      # - kind: allow
+      #   schedule: "10 1 * * *"
+      #   duration: 1h
+      #   applications:
+      #     - "*-dev"
+      #   manualSync: true
+    signatureKeys: []
+      # - keyID: ABCDEF1234567890
+    sourceNamespaces:
+      - argocd
+  web-development:
+    namespace: argocd
+    additionalLabels: {}
+    additionalAnnotations: {}
+    permitOnlyProjectScopedClusters: false
+    finalizers:
+      - resources-finalizer.argocd.argoproj.io
+    description: Project for dev environment
+    sourceRepos:
+      # - "https://github.com/gearment/gea-app.git"
+      - "*"
+    destinations:
+      - namespace: development
+        name: k8s-longvan-development
+    clusterResourceWhitelist: []
+    clusterResourceBlacklist: []
+    # namespaceResourceBlacklist:
+    #   - group: ""
+    #     kind: ResourceQuota
+    #   - group: ""
+    #     kind: LimitRange
+    #   - group: ""
+    #     kind: NetworkPolicy
+    #     orphanedResources: {}
+    #     roles: []
+    namespaceResourceWhitelist:
+      - group: "*"
+        kind: "*"
+    # orphanedResources: {}
+    roles:
+    - name: admin
+      description: Admin privileges to team dev
+      policies:
+        - p, proj:web:admin, applications, *, *, allow
+      groups:
+        - /devops # Value from the groups scope
+    syncWindows: []
+      # - kind: allow
+      #   schedule: "10 1 * * *"
+      #   duration: 1h
+      #   applications:
+      #     - "*-dev"
+      #   manualSync: true
+    signatureKeys: []
+      # - keyID: ABCDEF1234567890
+    sourceNamespaces:
+      - argocd
+  cloud-production:
+    namespace: argocd
+    additionalLabels: {}
+    additionalAnnotations: {}
+    permitOnlyProjectScopedClusters: false
+    finalizers:
+      - resources-finalizer.argocd.argoproj.io
+    description: Project for production environment
+    sourceRepos:
+      # - "https://github.com/gearment/gea-app.git"
+      - "*"
+    destinations:
+      - namespace: production
+        name: k8s-longvan-fpt-production
+    clusterResourceWhitelist: []
+    clusterResourceBlacklist: []
+    # namespaceResourceBlacklist:
+    #   - group: ""
+    #     kind: ResourceQuota
+    #   - group: ""
+    #     kind: LimitRange
+    #   - group: ""
+    #     kind: NetworkPolicy
+    #     orphanedResources: {}
+    #     roles: []
+    namespaceResourceWhitelist:
+      - group: "*"
+        kind: "*"
+    # orphanedResources: {}
+    roles:
+    - name: admin
+      description: Admin privileges to team dev
+      policies:
+        - p, proj:cloud:admin, applications, *, *, allow
+      groups:
+        - /devops # Value from the groups scope
+    syncWindows: []
+      # - kind: allow
+      #   schedule: "10 1 * * *"
+      #   duration: 1h
+      #   applications:
+      #     - "*-dev"
+      #   manualSync: true
+    signatureKeys: []
+      # - keyID: ABCDEF1234567890
+    sourceNamespaces:
+      - argocd
+  web-production:
+    namespace: argocd
+    additionalLabels: {}
+    additionalAnnotations: {}
+    permitOnlyProjectScopedClusters: false
+    finalizers:
+      - resources-finalizer.argocd.argoproj.io
+    description: Project for production environment
+    sourceRepos:
+      # - "https://github.com/gearment/gea-app.git"
+      - "*"
+    destinations:
+      - namespace: production
+        name: k8s-longvan-fpt-production
+    clusterResourceWhitelist: []
+    clusterResourceBlacklist: []
+    # namespaceResourceBlacklist:
+    #   - group: ""
+    #     kind: ResourceQuota
+    #   - group: ""
+    #     kind: LimitRange
+    #   - group: ""
+    #     kind: NetworkPolicy
+    #     orphanedResources: {}
+    #     roles: []
+    namespaceResourceWhitelist:
+      - group: "*"
+        kind: "*"
+    # orphanedResources: {}
+    roles:
+    - name: admin
+      description: Admin privileges to team dev
+      policies:
+        - p, proj:cloud:admin, applications, *, *, allow
+      groups:
+        - /devops # Value from the groups scope
+    syncWindows: []
+      # - kind: allow
+      #   schedule: "10 1 * * *"
+      #   duration: 1h
+      #   applications:
+      #     - "*-dev"
+      #   manualSync: true
+    signatureKeys: []
+      # - keyID: ABCDEF1234567890
+    sourceNamespaces:
+      - argocd
+  cloud-cmc-production:
+    namespace: argocd
+    additionalLabels: {}
+    additionalAnnotations: {}
+    permitOnlyProjectScopedClusters: false
+    finalizers:
+      - resources-finalizer.argocd.argoproj.io
+    description: Project for dev environment
+    sourceRepos:
+      # - "https://github.com/gearment/gea-app.git"
+      - "*"
+    destinations:
+      - namespace: production
+        name: longvan-cmc-production
+    clusterResourceWhitelist: []
+    clusterResourceBlacklist: []
+    namespaceResourceWhitelist:
+      - group: "*"
+        kind: "*"
+    # orphanedResources: {}
+    roles:
+    - name: admin
+      description: Admin privileges to team dev
+      policies:
+        - p, proj:cloud-development:admin, applications, *, *, allow
+      groups:
+        - /devops # Value from the groups scope
+    syncWindows: []
+      # - kind: allow
+      #   schedule: "10 1 * * *"
+      #   duration: 1h
+      #   applications:
+      #     - "*-dev"
+      #   manualSync: true
+    signatureKeys: []
+      # - keyID: ABCDEF1234567890
+    sourceNamespaces:
+      - argocd

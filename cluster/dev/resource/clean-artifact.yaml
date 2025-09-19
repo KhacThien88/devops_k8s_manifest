@@ -1,0 +1,71 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: clean-artifacts
+  namespace: devops
+spec:
+  schedule: "0 */12 * * *"
+  failedJobsHistoryLimit: 5
+  successfulJobsHistoryLimit: 10
+  jobTemplate:
+    spec:
+      backoffLimit: 5
+      template:
+        metadata:
+          labels:
+            component: infra
+        spec:
+          # serviceAccountName: update-ecr-sva
+          restartPolicy: OnFailure
+          containers:
+          - name: artifactory-cleanup
+            image: devopshq/artifactory-cleanup
+            imagePullPolicy: Always
+            command:
+            - /bin/sh
+            - -c
+            args: ["artifactory-cleanup --destroy" ]
+            env:
+            - name: ARTIFACTORY_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: artifactory-account
+                  key: artifactory_username
+            - name: ARTIFACTORY_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: artifactory-account
+                  key: artifactory_password
+            volumeMounts:
+            - name: script
+              mountPath: /app/
+              readOnly: true
+          volumes:
+          - name: script
+            configMap:
+              # Provide the name of the ConfigMap containing the files you want
+              # to add to the container
+              name: artifactory-cleanup
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: artifactory-cleanup
+  labels:
+    app: infra
+  namespace: devops
+data:
+  artifactory-cleanup.yaml: |
+    artifactory-cleanup:
+      server: https://containers-registry.longvan.vn/artifactory
+      # $VAR is auto populated from environment variables
+      user: $ARTIFACTORY_USERNAME
+      password: $ARTIFACTORY_PASSWORD
+
+      policies:
+        - name: Remove all files from longvan-docker older than 180 days
+          rules:
+            - rule: Repo
+              name: "longvan-docker"
+            - rule: DeleteOlderThan
+              days: 180

@@ -1,0 +1,144 @@
+projects:
+  default:
+    namespace: argocd
+    additionalLabels: {}
+    additionalAnnotations: {}
+    permitOnlyProjectScopedClusters: false
+    finalizers:
+      - resources-finalizer.argocd.argoproj.io
+    description: Project for dev environment
+    sourceRepos:
+      # - "https://github.com/gearment/gea-app.git"
+      - "*"
+    destinations:
+      - namespace: development
+        server: https://kubernetes.default.svc
+    clusterResourceWhitelist: []
+    clusterResourceBlacklist: []
+    # namespaceResourceBlacklist:
+    #   - group: ""
+    #     kind: ResourceQuota
+    #   - group: ""
+    #     kind: LimitRange
+    #   - group: ""
+    #     kind: NetworkPolicy
+    #     orphanedResources: {}
+    #     roles: []
+    namespaceResourceWhitelist:
+      - group: "*"
+        kind: "*"
+    # orphanedResources: {}
+    roles:
+    - name: admin
+      description: Admin privileges to team dev
+      policies:
+        - p, proj:web:admin, applications, *, *, allow
+      groups:
+        - /devops # Value from the groups scope
+    syncWindows: []
+      # - kind: allow
+      #   schedule: "10 1 * * *"
+      #   duration: 1h
+      #   applications:
+      #     - "*-dev"
+      #   manualSync: true
+    signatureKeys: []
+      # - keyID: ABCDEF1234567890
+    sourceNamespaces:
+      - argocd
+  cloud:
+    namespace: argocd
+    additionalLabels: {}
+    additionalAnnotations: {}
+    permitOnlyProjectScopedClusters: false
+    finalizers:
+      - resources-finalizer.argocd.argoproj.io
+    description: Project for dev environment
+    sourceRepos:
+      # - "https://github.com/gearment/gea-app.git"
+      - "*"
+    destinations:
+      - namespace: development
+        server: https://kubernetes.default.svc
+      - namespace: production
+        server: https://178.128.7.0:6443
+    clusterResourceWhitelist: []
+    clusterResourceBlacklist: []
+    # namespaceResourceBlacklist:
+    #   - group: ""
+    #     kind: ResourceQuota
+    #   - group: ""
+    #     kind: LimitRange
+    #   - group: ""
+    #     kind: NetworkPolicy
+    #     orphanedResources: {}
+    #     roles: []
+    namespaceResourceWhitelist:
+      - group: "*"
+        kind: "*"
+    # orphanedResources: {}
+    roles:
+    - name: admin
+      description: Admin privileges to team dev
+      policies:
+        - p, proj:cloud:admin, applications, *, *, allow
+      groups:
+        - /devops # Value from the groups scope
+    syncWindows: []
+      # - kind: allow
+      #   schedule: "10 1 * * *"
+      #   duration: 1h
+      #   applications:
+      #     - "*-dev"
+      #   manualSync: true
+    signatureKeys: []
+      # - keyID: ABCDEF1234567890
+    sourceNamespaces:
+      - argocd
+  web:
+    namespace: argocd
+    additionalLabels: {}
+    additionalAnnotations: {}
+    permitOnlyProjectScopedClusters: false
+    finalizers:
+      - resources-finalizer.argocd.argoproj.io
+    description: Project for dev environment
+    sourceRepos:
+      # - "https://github.com/gearment/gea-app.git"
+      - "*"
+    destinations:
+      - namespace: development
+        server: https://kubernetes.default.svc
+    clusterResourceWhitelist: []
+    clusterResourceBlacklist: []
+    # namespaceResourceBlacklist:
+    #   - group: ""
+    #     kind: ResourceQuota
+    #   - group: ""
+    #     kind: LimitRange
+    #   - group: ""
+    #     kind: NetworkPolicy
+    #     orphanedResources: {}
+    #     roles: []
+    namespaceResourceWhitelist:
+      - group: "*"
+        kind: "*"
+    # orphanedResources: {}
+    roles:
+    - name: admin
+      description: Admin privileges to team dev
+      policies:
+        - p, proj:web:admin, applications, *, *, allow
+      groups:
+        - /devops # Value from the groups scope
+    syncWindows: []
+      # - kind: allow
+      #   schedule: "10 1 * * *"
+      #   duration: 1h
+      #   applications:
+      #     - "*-dev"
+      #   manualSync: true
+    signatureKeys: []
+      # - keyID: ABCDEF1234567890
+    sourceNamespaces:
+      - argocd

@@ -1,0 +1,45 @@
+# ci-templates/java-service-template.yml
+stages:
+  - build
+  - docker
+
+variables:
+  COMMIT_ID: $CI_COMMIT_SHA[0,7]
+  ARTIFACTORY_URL: "https://artifacts.longvan.vn/artifactory/longvan-libs-release"
+  DOCKER_REGISTRY: "containers-registry.longvan.vn/longvan-docker"
+
+build_artifact:
+  stage: build
+  image: maven:3.8.6-openjdk-18
+  script:
+    - cd $CI_PROJECT_NAME
+    - mvn deploy -s /etc/maven/settings.xml -DskipTests -DaltDeploymentRepository=central::default::$ARTIFACTORY_URL
+  variables:
+    ARTIFACTS_USERNAME: $ARTIFACTS_USERNAME
+    ARTIFACTS_PASSWORD: $ARTIFACTS_PASSWORD
+  rules:
+    - if: '$CI_COMMIT_REF_NAME =~ /^(dev-).*$/'
+      variables:
+        DEPLOY_ENV: "development"
+    - if: '$CI_COMMIT_REF_NAME =~ /^(test-).*$/'
+      variables:
+        DEPLOY_ENV: "development"
+    - if: '$CI_COMMIT_REF_NAME =~ /^(prod-).*$/'
+      variables:
+        DEPLOY_ENV: "prod"
+  artifacts:
+    paths:
+      - $CI_PROJECT_NAME/target/$CI_PROJECT_NAME.jar
+
+build_docker:
+  stage: docker
+  image: gcr.io/kaniko-project/executor:v1.9.1-debug
+  script:
+    # - ls -lsa $CI_PROJECT_NAME
+    # - mkdir -p $CI_PROJECT_NAME/target
+    # - cp -r $CI_PROJECT_NAME.jar $CI_PROJECT_NAME/target/
+    - /kaniko/executor --context $CI_PROJECT_NAME --destination $DOCKER_REGISTRY/$CI_PROJECT_NAME:$CI_COMMIT_SHORT_SHA-$DEPLOY_ENV
+  rules:
+    - if: '$CI_COMMIT_REF_NAME =~ /^(prod-|dev-|test-).*$/'
+  dependencies:
+    - build_artifact
