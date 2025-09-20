@@ -131,7 +131,6 @@ secret:
   create: false
   encryptionPassphrase: test_passphrase
   name: csi-rbd-secret
-  userID: <plaintext ID>
   userKey: <Ceph auth key corresponding to userID above>
 selinuxMount: true
 serviceAccounts:
