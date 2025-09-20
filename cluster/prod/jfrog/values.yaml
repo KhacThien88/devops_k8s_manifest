@@ -76,7 +76,7 @@ artifactory:
       enabled: true
     loggers: []
     loggersResources: {}
-    masterKey: 5183f55888e284af7c303cba536ce662f756d72e6fba2f90724f51ce9280b112
+    masterKey: yourr_master_key
     migration:
       enabled: true
       timeoutSeconds: 3600
